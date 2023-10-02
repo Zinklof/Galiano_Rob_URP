@@ -21,6 +21,7 @@ public class RobMesh : MonoBehaviour
     [SerializeField] private int ballColor = 1;
     [SerializeField] private LineRenderer line;
     [SerializeField] private Transform objectiveNode = null;
+    [SerializeField] private bool drawPaths = false;
 
     public void GetPath()
     {
@@ -28,6 +29,7 @@ public class RobMesh : MonoBehaviour
 
         agent.SetDestination(objectiveNode.position);
 
+        if (drawPaths)
         DrawPath(agent.path);
     }
 
@@ -43,7 +45,7 @@ public class RobMesh : MonoBehaviour
 
     private void DetermineObjective()
     {
-        if (hasBall == false)
+        if (hasBall == false && ballExists == true)
         {
             objective = 1;
         }
@@ -62,11 +64,10 @@ public class RobMesh : MonoBehaviour
                 objective = 4;
             }
         }
-        else
+        else if (!hasBall && !ballExists)
         {
             objective = 5;
-            ballExists = false;
-        }
+        } 
     }
 
     public void SetBallExistsTrue()
@@ -113,12 +114,21 @@ public class RobMesh : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ballExists)
-        {
-            DetermineObjective();
-        }
+        DetermineObjective();
 
         SetObjective();
         GetPath();
+
+        if (Input.GetKeyUp(KeyCode.P))
+        {
+            if (drawPaths)
+            {
+                drawPaths = false;
+            }
+            else
+            {
+                drawPaths = true;
+            }
+        }
     }
 }
