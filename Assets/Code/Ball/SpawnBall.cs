@@ -44,11 +44,11 @@ public class SpawnBall : MonoBehaviour
             switch (tempint)
             {
                 case 0:
-                    RedBall(); break;
+                    RedBall(); Debug.Log("red"); break;
                 case 1:
-                    GreenBall(); break;
+                    GreenBall(); Debug.Log("green"); break;
                 case 2:
-                    BlueBall(); break;
+                    BlueBall(); Debug.Log("blue"); break;
                 case 3:
                     Debug.Log("Random Number was 3"); break;
             }

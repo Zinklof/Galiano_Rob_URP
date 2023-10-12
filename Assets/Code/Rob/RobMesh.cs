@@ -14,6 +14,12 @@ public class RobMesh : MonoBehaviour
     [SerializeField] Transform rbNode;
     [SerializeField] Transform gbNode;
     [SerializeField] Transform bbNode;
+    [Header("animators")]
+    [SerializeField] Animator redAnimator;
+    [SerializeField] Animator blueAnimator;
+    [SerializeField] Animator greenAnimator;
+    [Header("code references")]
+    [SerializeField] AttachToRob attachToRob;
     [Header("Debug Variables")]
     [SerializeField] private int objective = 0;
     [SerializeField] private bool hasBall = false;
@@ -111,12 +117,57 @@ public class RobMesh : MonoBehaviour
                 objectiveNode = homeNode; break;
         }
     }
+
+    private void CheckForBox()
+    {
+        if (Vector3.Distance(rbNode.position, transform.position) < 0.5f)
+        {
+            redAnimator.SetTrigger("open");
+            hasBall = false;
+            ballExists = false;
+            attachToRob.SetAttached(false);
+        }
+        if (Vector3.Distance(gbNode.position, transform.position) < 0.5f)
+        {
+            greenAnimator.SetTrigger("open");
+            hasBall = false;
+            ballExists = false; 
+            attachToRob.SetAttached(false);
+        }
+        if (Vector3.Distance(bbNode.position, transform.position) < 0.5f)
+        {
+            blueAnimator.SetTrigger("open");
+            hasBall = false;
+            ballExists = false;
+            attachToRob.SetAttached(false);
+        }
+    }
+
+    private void CheckForBall()
+    {
+        if (Vector3.Distance(ballNode.position, transform.position) < .5f)
+        {
+            hasBall = true;
+            attachToRob.SetAttached(true);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
-        DetermineObjective();
+        if (hasBall)
+        {
+            CheckForBox();
+        }
 
+        if (!hasBall && ballExists)
+        {
+            CheckForBall();
+        }
+
+        DetermineObjective();
         SetObjective();
+        
         GetPath();
 
         if (Input.GetKeyUp(KeyCode.P))
