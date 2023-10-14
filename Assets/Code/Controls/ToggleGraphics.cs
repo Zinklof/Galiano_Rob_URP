@@ -7,7 +7,7 @@ public class ToggleGraphics : MonoBehaviour
 {
     [SerializeField] private bool graphics = true;
     [SerializeField] private GameObject graphicsObject = null;
-    [SerializeField] private GameObject reflectionProbe = null;
+    //[SerializeField] private GameObject reflectionProbe = null;
 
     void Update()
     {
@@ -29,12 +29,12 @@ public class ToggleGraphics : MonoBehaviour
         if (graphics)
         {
             graphicsObject.SetActive(true);
-            reflectionProbe.SetActive(true);
+            //reflectionProbe.SetActive(true);
         }
         if (!graphics)
         {
             graphicsObject.SetActive(false);
-            reflectionProbe.SetActive(false);
+            //reflectionProbe.SetActive(false);
         }
     }
 }

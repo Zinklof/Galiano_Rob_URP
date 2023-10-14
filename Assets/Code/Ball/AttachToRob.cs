@@ -6,7 +6,12 @@ public class AttachToRob : MonoBehaviour
 {
     [SerializeField] GameObject robObject = null;
     [SerializeField] private bool attached = false;
-   
+
+    private void Awake()
+    {
+        robObject = GameObject.FindGameObjectWithTag("rob");
+    }
+
     public bool SetAttached(bool state)
     {
         if (state == true)
@@ -26,6 +31,11 @@ public class AttachToRob : MonoBehaviour
         { 
             return false;
         }
+    }
+
+    public void Kill()
+    {
+        GameObject.Destroy(this.gameObject);
     }
     
     void Update()

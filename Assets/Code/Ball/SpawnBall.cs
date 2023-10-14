@@ -7,27 +7,34 @@ using UnityEngine.Android;
 public class SpawnBall : MonoBehaviour
 {
     [SerializeField] RobMesh robMesh = null;
-    [SerializeField] GameObject ballObject = null;
+    [SerializeField] GameObject redBall = null;
+    [SerializeField] GameObject greenBall = null;
+    [SerializeField] GameObject blueBall = null;
+    [SerializeField] Vector3 spawnPosition = Vector3.zero;
     [SerializeField] Material ballMaterial = null;
     [SerializeField] Material ballEmissive = null;
 
     private void BlueBall()
     {
-        ballMaterial.SetColor("_Color", Color.blue);
-        ballEmissive.SetColor("_Emission", Color.blue);
+        GameObject ball = Instantiate(blueBall);
+        ball.transform.position = spawnPosition;
+        robMesh.SetBallColor(3);
+
     }
     private void GreenBall()
     {
-        ballMaterial.SetColor("_Color", Color.green);
-        ballEmissive.SetColor("_Emission", Color.green);
+        GameObject ball = Instantiate(greenBall);
+        ball.transform.position = spawnPosition;
+        robMesh.SetBallColor(2);
     }
     private void RedBall()
     {
-        ballMaterial.SetColor("_Color", Color.red);
-        ballEmissive.SetColor("_Emission", Color.red);
+        GameObject ball = Instantiate(redBall);
+        ball.transform.position = spawnPosition;
+        robMesh.SetBallColor(1);
     }
 
-    private void Update()
+    private void RunCode()
     {
         bool temp = robMesh.DoesBallExist();
 
@@ -38,8 +45,6 @@ public class SpawnBall : MonoBehaviour
         else if (!temp)
         {
             int tempint = Random.Range(0, 3);
-
-            ballObject.SetActive(true);
 
             switch (tempint)
             {
@@ -52,8 +57,15 @@ public class SpawnBall : MonoBehaviour
                 case 3:
                     Debug.Log("Random Number was 3"); break;
             }
+            robMesh.SetBallExistsTrue();
+        }
+    }
 
-            ballObject.transform.position = new Vector3(-2, 0.5f, -10);
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Return))
+        { 
+            RunCode();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -37,6 +38,11 @@ public class RobMesh : MonoBehaviour
 
         if (drawPaths)
         DrawPath(agent.path);
+        else
+        {
+            line.SetVertexCount(1);
+            line.SetPosition(1, transform.position);
+        }
     }
 
     public void DrawPath(NavMeshPath path)
@@ -125,21 +131,21 @@ public class RobMesh : MonoBehaviour
             redAnimator.SetTrigger("open");
             hasBall = false;
             ballExists = false;
-            attachToRob.SetAttached(false);
+            attachToRob.Kill();
         }
         if (Vector3.Distance(gbNode.position, transform.position) < 0.5f)
         {
             greenAnimator.SetTrigger("open");
             hasBall = false;
-            ballExists = false; 
-            attachToRob.SetAttached(false);
+            ballExists = false;
+            attachToRob.Kill();
         }
         if (Vector3.Distance(bbNode.position, transform.position) < 0.5f)
         {
             blueAnimator.SetTrigger("open");
             hasBall = false;
             ballExists = false;
-            attachToRob.SetAttached(false);
+            attachToRob.Kill();
         }
     }
 
@@ -180,6 +186,15 @@ public class RobMesh : MonoBehaviour
             {
                 drawPaths = true;
             }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        GameObject tempObject = GameObject.FindGameObjectWithTag("ball");
+        if (tempObject != null)
+        {
+            attachToRob = tempObject.GetComponent<AttachToRob>();
         }
     }
 }
